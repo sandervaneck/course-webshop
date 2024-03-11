@@ -6,13 +6,9 @@ import Link from "next/link";
 import { Badge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { emptyCart } from "../components/Defaults";
-import { Cart } from "../components/Types";
 import { ProductStore } from "./components/ProductStore";
-
-export const numberOfItems = (c: Cart): number => {
-  const products = c.products.reduce((sum, p) => sum + p.quantity, 0);
-  return products;
-};
+import { numberOfItems } from "./components/cart/functions";
+import { CartDialog } from "./components/cart";
 
 export default function Store(): JSX.Element {
   const [openCart, setOpenCart] = useState(false);
@@ -24,13 +20,26 @@ export default function Store(): JSX.Element {
       <AppBarContainer openCart={openCart} setOpenCart={setOpenCart} />
       <main className="flex min-h-screen flex-col items-center justify-between p-6 md:p-12">
         <div className="mb-12 md:mb-32 text-center lg:max-w-5xl w-full lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
-          {!openCart && (
+          {!openCart ? (
             <ProductStore
               cart={cart}
-              setCart={setCart}
+              setCart={(c) => {
+                setCart(c);
+                setNumber(numberOfItems(c));
+              }}
               openCart={openCart}
               setOpenCart={setOpenCart}
               numberOfItems={number}
+            />
+          ) : (
+            <CartDialog
+              openCart={openCart}
+              setOpenCart={setOpenCart}
+              cart={cart}
+              setCart={(c) => {
+                setCart(c);
+                setNumber(numberOfItems(c));
+              }}
             />
           )}
         </div>

@@ -4,6 +4,7 @@ import { Container, styled } from "@mui/material";
 import { useState } from "react";
 import { Categories } from "./Categories";
 import { ItemList } from "./ItemList";
+import { SingleProductPage } from "./SingleProductPage";
 
 interface ProductStoreProps {
   openCart: boolean;
@@ -72,7 +73,14 @@ export const ProductStore: React.FC<ProductStoreProps> = ({
             setProduct={setProduct}
           />
         ) : (
-          <></>
+          <>
+            <SingleProductPage
+              cart={cart}
+              setCart={setCart}
+              item={product}
+              setProduct={setProduct}
+            />
+          </>
         )}
       </StyledContent>
     </StyledContainer>
