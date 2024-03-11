@@ -1,3 +1,4 @@
+"use client";
 import {
   AppBar,
   Badge,
@@ -14,7 +15,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
-import { ShopName, MyFont } from "../Constants";
+import { ShopName } from "../Constants";
 import Menu from "./Menu";
 
 interface AppBarContainerProps {
@@ -55,13 +56,21 @@ const AppBarContainer: React.FC<AppBarContainerProps> = ({
       <AppBar position="sticky">
         <Toolbar id="back-to-top-anchor">
           <Grid container alignItems="center">
-            <Grid item>{isMenuOpen ? <CloseIcon /> : <MenuIcon />}</Grid>
+            <Grid item>
+              <StyledIconButton
+                edge="start"
+                color="inherit"
+                onClick={() => setMenuOpen(!isMenuOpen)}
+              >
+                {isMenuOpen ? <CloseIcon /> : <MenuIcon />}
+              </StyledIconButton>
+            </Grid>
             <Grid item>
               <Link href="/">
                 <StyledTypography
                   variant="h4"
                   translate="no"
-                  style={{ fontFamily: { MyFont }, color: "black" }}
+                  style={{ fontFamily: "Meow Script, cursive", color: "black" }}
                 >
                   {ShopName}
                 </StyledTypography>
