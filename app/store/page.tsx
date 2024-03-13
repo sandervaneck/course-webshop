@@ -17,7 +17,11 @@ export default function Store(): JSX.Element {
 
   return (
     <>
-      <AppBarContainer openCart={openCart} setOpenCart={setOpenCart} />
+      <AppBarContainer
+        openCart={openCart}
+        setOpenCart={setOpenCart}
+        numberOfItems={number}
+      />
       <main className="flex min-h-screen flex-col items-center justify-between p-6 md:p-12">
         <div className="mb-12 md:mb-32 text-center lg:max-w-5xl w-full lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
           {!openCart ? (
