@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { totalPrice } from "./functions";
+import CheckoutForm from "@/app/components/stripe/CheckoutForm";
 
 interface CartProps {
   setCart: (c: Cart) => void;
@@ -177,7 +178,7 @@ export const CartDialog: React.FC<CartProps> = ({
       </StyledGrid>
       <Grid item xs={6} sm={6}>
         <StyledDialogActions>
-          <Button>Pay</Button>
+          <CheckoutForm uiMode="hosted" order={cart} />
           <Button
             variant="outlined"
             style={{ borderRadius: 28 }}

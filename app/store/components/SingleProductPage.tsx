@@ -2,6 +2,7 @@ import { Cart, MyProduct } from "@/app/components/Types";
 import { Grid, Button, Typography, Chip, alpha } from "@mui/material";
 import { styled } from "@mui/system";
 import { ImageSlider } from "./slider/Slider";
+import { addToCart } from "./cart/functions";
 
 interface SingleProductPageProps {
   cart: Cart;
