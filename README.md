@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Repository behind the [webshop course](https://www.youtube.com/watch?v=BRB5Qah502w) on Youtube!
 
-## Getting Started
+## Ecommerce Template Integrated with Stripe.
 
-First, run the development server:
+This is a full-stack TypeScript ecommerce template using:
+
+Frontend:
+Next.js
+[react-stripe-js](https://github.com/stripe/react-stripe-js) for [Checkout](https://stripe.com/checkout)
+Backend
+Next.js [Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers) and [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/forms-and-mutations)
+[stripe-node with TypeScript](https://github.com/stripe/stripe-node#usage-with-typescript)
+
+## Demo
+
+- [Live Demo](https://webshop-zeta-two.vercel.app/)
+
+The demo is running in test mode -- use 4242424242424242 as a test card number with any CVC + future expiration date.
+
+Use the 4000002760003184 test card number to trigger a 3D Secure challenge flow.
+
+Read more about testing on Stripe.
+
+## Functionality
+
+- Stripe Checkout
+  - Server Component: [app/store/components/cart/Page.tsx](path/to/Page.tsx)
+  - Server Action: [app/actions/stripe.ts](path/to/stripe.ts)
+  - Checkout Session 'success' page fetches the Checkout Session object from Stripe: [app/store/result/page.tsx](path/to/page.tsx)
+- Webhook handling for post-payment events
+  Route Handler: [app/api/webhooks/route.ts](path/to/route.ts)
+
+## Manual
+
+1. Fork the project or open with your Github Desktop
+2. Copy the `.env.local.example` file into a file named `.env.local` in the root directory of this project:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.local.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You will need a Stripe account ([register](https://dashboard.stripe.com/register)) to run this sample. Go to the [Stripe developer dashboard](https://dashboard.stripe.com/apikeys) to find your API keys and replace them in the .env.local file.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
+STRIPE_SECRET_KEY=<replace-with-your-secret-key>
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Now install the dependencies
 
-## Learn More
+```bash
+npm install
+npm run dev
+# or
+yarn
+yarn dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Forward webhooks to your local dev server
+   First install the [CLI](https://stripe.com/docs/stripe-cli) and [link your Stripe account](https://stripe.com/docs/stripe-cli#link-account).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Next, start the webhook forwarding:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+stripe listen --forward-to localhost:3000/api/webhooks
+```
 
-## Deploy on Vercel
+The CLI will print a webhook secret key to the console. Set `STRIPE_WEBHOOK_SECRET` to this value in your .`env.local` file.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. Move to next step (Adjust it to your Store, see below)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Adjust it to your Store
+
+5.1 Edit the products in [app/components/constants/Products.tsx](path/to/Products.tsx) to your ones
+5.2 Update the images in [app/public](path/to/public) to your images and update the [app/favoicon.icon](path/to/favoicon.ico) to your website logo
+5.3 Update the company info in [app/store/components/constants/Legal.tsx](path/to/Legal.tsx) to your company info
+5.4 Update the text for the about section in [app/store/components/constants/Texts.tsx](path/to/Texts.tsx) to your company info
+5.5 Update the function in [app/components/store/products/ItemList.tsx](path/to/ItemList.tsx) `const returnCategory = (category: string) => {}` to return the correct ones, given your categories
